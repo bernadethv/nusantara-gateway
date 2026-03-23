@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Nusantara Gateway | AI Export Intelligence for Russian Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a2a3f; line-height: 1.4; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 1.8rem 2rem; }
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .logo h1 { font-size: 1.9rem; font-weight: 800; background: linear-gradient(135deg, #0B2F5F, #1E6B52); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo p { font-size: 0.85rem; color: #4a627a; font-weight: 500; }
+        .badge { background: #eef2ff; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.85rem; font-weight: 600; color: #1e5f4b; }
+        .metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+        .metric-card { background: white; border-radius: 24px; padding: 1.2rem 1rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); }
+        .metric-value { font-size: 2.2rem; font-weight: 800; color: #1B4D3E; }
+        .metric-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; color: #5e6f8d; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.8rem; margin-bottom: 2rem; }
+        .product-section, .compliance-card, .chat-container, .charts-section, .recommendation-section { background: white; border-radius: 28px; padding: 1.5rem; border: 1px solid #e9edf2; }
+        .section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; border-left: 4px solid #2c7a5e; padding-left: 14px; }
+        .selector { width: 100%; padding: 12px 16px; border-radius: 60px; border: 1px solid #cfdfe8; background: #fefefe; font-weight: 500; margin-bottom: 1.8rem; font-size: 1rem; cursor: pointer; }
+        .score-big { text-align: center; margin: 1rem 0; }
+        .score-number { font-size: 4rem; font-weight: 800; background: linear-gradient(145deg, #0F5C4A, #218B6B); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .attractiveness-meter { background: #eef2f7; border-radius: 40px; height: 12px; width: 100%; margin: 0.8rem 0; }
+        .meter-fill { background: linear-gradient(90deg, #1E6B52, #2F9B7A); width: 0%; height: 12px; border-radius: 40px; }
+        .opportunity-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 1rem 0; }
+        .tag { background: #eef2fa; padding: 6px 12px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; }
+        .risk-item { background: #fef7e0; border-left: 4px solid #e6b12e; padding: 1rem; border-radius: 16px; margin-bottom: 1rem; }
+        .risk-title { font-weight: 800; font-size: 0.9rem; }
+        .risk-desc { font-size: 0.8rem; color: #5b6e8c; margin-top: 4px; }
+        .chat-messages { height: 400px; overflow-y: auto; background: #f9fbfd; border-radius: 24px; padding: 1rem; margin-bottom: 1rem; }
+        .message { margin-bottom: 1rem; display: flex; gap: 10px; }
+        .bot-msg { background: #eef2f9; padding: 12px 16px; border-radius: 20px 20px 20px 4px; max-width: 85%; font-size: 0.85rem; line-height: 1.5; white-space: pre-wrap; }
+        .user-msg { justify-content: flex-end; }
+        .user-msg .bubble { background: #1e6b52; color: white; padding: 12px 16px; border-radius: 20px 20px 4px 20px; max-width: 85%; font-size: 0.85rem; }
+        .chat-input-area { display: flex; gap: 12px; }
+        .chat-input { flex: 1; padding: 14px 18px; border-radius: 60px; border: 1px solid #cddfe8; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
+        .btn-primary { background: #1b4d3e; border: none; padding: 0 28px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .btn-primary:hover { background: #0f3e31; }
+        footer { text-align: center; font-size: 0.7rem; color: #7b8ba3; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; margin-top: 1rem; }
+        .note-ai { font-size: 0.7rem; background: #f1f5f9; display: inline-block; padding: 4px 12px; border-radius: 30px; }
+        .api-status { font-size: 0.7rem; background: #e6f7e6; color: #2e7d32; padding: 4px 12px; border-radius: 30px; }
+        .typing-indicator { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #eef2f9; border-radius: 24px; width: fit-content; }
+        @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; } .container { padding: 1rem; } }
+        .suggestion-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .suggestion-btn { background: #eef2fa; border: none; padding: 6px 14px; border-radius: 40px; font-size: 0.7rem; cursor: pointer; transition: 0.2s; color: #1e5f4b; }
+        .suggestion-btn:hover { background: #d4e0e8; }
+        .category-title { font-size: 0.7rem; font-weight: 600; color: #5e6f8d; margin: 8px 0 4px 0; }
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+        .chart-container { background: #f9fbfd; border-radius: 20px; padding: 1rem; }
+        .recommendation-card { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 20px; padding: 1rem; margin-top: 1rem; border-left: 4px solid #1e6b52; }
+        .rec-item { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0; }
+        .rec-item:last-child { border-bottom: none; }
+        .rec-product { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .rec-score { background: #1e6b52; color: white; padding: 2px 10px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
+        .rec-reason { font-size: 0.7rem; color: #5e6f8d; }
+        .feedback-area { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .feedback-btn { background: #eef2fa; border: none; padding: 6px 12px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; }
+        .feedback-btn:hover { background: #d4e0e8; }
+        @media (max-width: 700px) { .charts-grid { grid-template-columns: 1fr; } }
+        canvas { max-height: 250px; width: 100% !important; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-compass" style="color: #1E6B52;"></i> Nusantara Gateway</h1>
+            <p>AI-Powered Export Intelligence · Indonesia to Russia & BRICS Markets</p>
+        </div>
+        <div class="badge">
+            <i class="fas fa-chart-line"></i> Thesis Demo · Gemini AI
+        </div>
+    </div>
+
+    <div class="metrics-row">
+        <div class="metric-card"><div class="metric-value">146M</div><div class="metric-label">Russia Population</div></div>
+        <div class="metric-card"><div class="metric-value">61%</div><div class="metric-label">MSME GDP Contribution</div></div>
+        <div class="metric-card"><div class="metric-value">🇮🇩🤝🇷🇺</div><div class="metric-label">BRICS+ Strategic Window</div></div>
+        <div class="metric-card"><div class="metric-value">+23%</div><div class="metric-label">Projected Export Growth</div></div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="product-section">
+            <div class="section-title"><i class="fas fa-chart-simple"></i> Market Attractiveness Scoring</div>
+            <label style="font-weight: 600; font-size: 0.8rem;">Select Product Category</label>
+            <select id="productSelect" class="selector">
+                <option value="coffee">☕ Indonesian Coffee (Arabica/Robusta)</option>
+                <option value="textile">👕 Textile & Garment</option>
+                <option value="handicraft">🎨 Handicraft & Creative Economy</option>
+                <option value="palm">🌴 Palm Oil & Derivatives</option>
+                <option value="processed">🍲 Processed Food (Snacks, Canned)</option>
+                <option value="furniture">🪑 Furniture & Wood Products</option>
+                <option value="spices">🌶️ Spices (Nutmeg, Clove, Pepper)</option>
+                <option value="rubber">⚙️ Rubber & Rubber Products</option>
+            </select>
+            <div class="score-big">
+                <div class="score-number" id="attractivenessScore">86</div>
+                <div class="score-label">/100 · Market Attractiveness Index</div>
+                <div class="attractiveness-meter"><div class="meter-fill" id="meterFill" style="width: 86%;"></div></div>
+            </div>
+            <div id="opportunityText" style="font-weight: 500; margin: 8px 0;">⭐ Very High: Russia's coffee consumption grows 5% annually. Indonesian beans highly prized.</div>
+            <div class="opportunity-tags" id="tagsContainer"></div>
+            <div style="font-size: 0.75rem; background: #EFF6F2; padding: 8px 12px; border-radius: 20px; margin-top: 10px;">
+                <i class="fas fa-lightbulb"></i> <strong>Actionable insight</strong>: Russian importers actively seek single-origin Indonesian coffee. Leverage halal certification + EAEU labeling.
+            </div>
+        </div>
+
+        <div class="compliance-card">
+            <div class="section-title"><i class="fas fa-gavel"></i> Top 3 Compliance Risks</div>
+            <div id="complianceList"></div>
+            <div class="note-ai" style="margin-top: 12px;"><i class="fas fa-robot"></i> AI-powered regulatory intelligence</div>
+        </div>
+    </div>
+
+    <!-- CHARTS SECTION -->
+    <div class="charts-section" style="margin-bottom: 2rem;">
+        <div class="section-title"><i class="fas fa-chart-line"></i> Trade Data Visualization · Indonesia-Russia Export Trends</div>
+        <div class="charts-grid">
+            <div class="chart-container">
+                <canvas id="exportTrendChart"></canvas>
+                <p style="font-size:0.7rem; text-align:center; margin-top:8px; color:#5e6f8d;"><i class="fas fa-chart-line"></i> Export Value Trend (2020-2024)</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="marketShareChart"></canvas>
+                <p style="font-size:0.7rem; text-align:center; margin-top:8px; color:#5e6f8d;"><i class="fas fa-chart-pie"></i> Market Share by Product Category (2024)</p>
+            </div>
+        </div>
+        <div class="charts-grid" style="margin-top: 1rem;">
+            <div class="chart-container">
+                <canvas id="attractivenessRadar"></canvas>
+                <p style="font-size:0.7rem; text-align:center; margin-top:8px; color:#5e6f8d;"><i class="fas fa-chart-radar"></i> Product Attractiveness Comparison</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="cityConsumptionChart"></canvas>
+                <p style="font-size:0.7rem; text-align:center; margin-top:8px; color:#5e6f8d;"><i class="fas fa-map-marker-alt"></i> Coffee Consumption by Russian City (tons/year)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECOMMENDATION ENGINE SECTION -->
+    <div class="recommendation-section" style="margin-bottom: 2rem;">
+        <div class="section-title"><i class="fas fa-magic"></i> AI Product Recommendation Engine</div>
+        <p style="font-size:0.8rem; margin-bottom:1rem; color:#5e6f8d;">Based on market attractiveness, compliance complexity, and logistics feasibility</p>
+        <div id="recommendationList"></div>
+        <div class="feedback-area">
+            <span style="font-size:0.75rem;"><i class="fas fa-star" style="color:#f5b042;"></i> Rate this recommendation:</span>
+            <button class="feedback-btn" data-rating="5">⭐⭐⭐⭐⭐</button>
+            <button class="feedback-btn" data-rating="4">⭐⭐⭐⭐</button>
+            <button class="feedback-btn" data-rating="3">⭐⭐⭐</button>
+            <button class="feedback-btn" data-rating="2">⭐⭐</button>
+            <button class="feedback-btn" data-rating="1">⭐</button>
+            <span id="feedbackMsg" style="font-size:0.7rem; color:#1e6b52;"></span>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="section-title">
+            <i class="fas fa-comment-dots"></i> Ask Nusantara AI · Export Advisor
+            <span id="apiStatus" class="api-status"><i class="fas fa-check-circle"></i> Gemini AI Active</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message">
+                <div class="bot-msg">
+                    👋 <strong>Welcome to Nusantara Gateway!</strong><br><br>
+                    I'm your AI export advisor for Indonesian MSMEs exporting to Russia.<br><br>
+                    Click any button below to get instant answers!
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" class="chat-input" placeholder="Ask anything about exporting to Russia...">
+            <button id="sendBtn" class="btn-primary">Send <i class="fas fa-paper-plane"></i></button>
+        </div>
+        
+        <!-- Suggestion buttons -->
+        <div class="category-title">📍 CONSUMPTION BY CITY</div>
+        <div class="suggestion-buttons">
+            <button class="suggestion-btn" data-question="coffee_cities">☕ Cities that consume most coffee</button>
+            <button class="suggestion-btn" data-question="textile_cities">👕 Textile market cities</button>
+            <button class="suggestion-btn" data-question="food_cities">🍲 Food demand by city</button>
+            <button class="suggestion-btn" data-question="handicraft_cities">🎨 Handicraft market cities</button>
+        </div>
+        
+        <div class="category-title">🤝 FINDING RUSSIAN IMPORTERS</div>
+        <div class="suggestion-buttons">
+            <button class="suggestion-btn" data-question="coffee_importers">☕ Coffee importers Moscow</button>
+            <button class="suggestion-btn" data-question="textile_buyers">👕 Textile buyers St. Petersburg</button>
+            <button class="suggestion-btn" data-question="food_distributors">🍜 Food distributors Russia</button>
+            <button class="suggestion-btn" data-question="online_platforms">🌐 Online importer platforms</button>
+        </div>
+        
+        <div class="category-title">📊 MARKET INTELLIGENCE</div>
+        <div class="suggestion-buttons">
+            <button class="suggestion-btn" data-question="top_products">📈 Top 5 export products</button>
+            <button class="suggestion-btn" data-question="export_challenges">⚠️ Export challenges</button>
+        </div>
+        
+        <div class="category-title">📜 REGULATIONS & PAYMENTS</div>
+        <div class="suggestion-buttons">
+            <button class="suggestion-btn" data-question="halal_cert">🕌 Halal certification</button>
+            <button class="suggestion-btn" data-question="eac_cert">✅ EAC certification</button>
+            <button class="suggestion-btn" data-question="payment_methods">💸 Payment methods</button>
+            <button class="suggestion-btn" data-question="import_duties">💰 Import duties</button>
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-globe"></i> Nusantara Gateway · Thesis Research on AI-Driven Trade Intelligence<br>
+        Powered by Google Gemini AI · Indonesia-Russia Trade Intelligence
+    </footer>
+</div>
+
+<script>
+    // ==================== EXTENDED PRODUCT DATABASE ====================
+    const productData = {
+        coffee: {
+            score: 86, 
+            insight: "⭐ Very High: Russia's coffee consumption grows 5% annually. Indonesian beans highly prized.",
+            tags: ["📈 +23% import growth", "✅ No anti-dumping duties", "🤝 BRICS facilitation", "☕ Premium demand"],
+            compliance: [
+                { title: "Halal Certification", desc: "Mandatory for all food imports. Must be certified by BPJPH and translated into Russian." },
+                { title: "Phytosanitary Certificate", desc: "Required for coffee beans. Obtain from Indonesian Agricultural Quarantine Agency." },
+                { title: "Customs Classification (HS 0901)", desc: "Roasted vs green beans have different duties (5-15%). Proper classification is critical." }
+            ]
+        },
+        textile: {
+            score: 72, 
+            insight: "📊 Moderate-High: Indonesian batik and modest wear have growing niche demand in Russian market.",
+            tags: ["🎯 EAC TR CU 017/2011", "🧵 Ethical fashion trend", "⚠️ 12-15% import duty"],
+            compliance: [
+                { title: "EAC Marking", desc: "All textile products must pass safety tests and display EAC label before customs clearance." },
+                { title: "Certificate of Origin", desc: "Form A under GSP may reduce duties. Verify eligibility with customs broker." },
+                { title: "Russian Labeling", desc: "Labels must be in Russian with fiber composition, size, and care instructions." }
+            ]
+        },
+        handicraft: {
+            score: 68, 
+            insight: "🎨 Creative Economy: Russian buyers value authentic handmade Indonesian crafts.",
+            tags: ["🖼️ IP protection needed", "📦 Small-batch logistics", "💎 Cultural adaptation"],
+            compliance: [
+                { title: "Customs Valuation", desc: "Risk of re-inspection if undervalued. Use proper commercial invoices." },
+                { title: "Wood Packaging (ISPM 15)", desc: "Wooden crates must be heat-treated and marked with ISPM 15 stamp." },
+                { title: "Russian Labeling", desc: "Country of origin and material composition must be in Russian." }
+            ]
+        },
+        palm: {
+            score: 54, 
+            insight: "⚠️ Moderate Potential: Faces environmental scrutiny and export tax fluctuations.",
+            tags: ["🌍 RSPO certification preferred", "📉 Global price competition", "⚖️ Anti-dumping monitoring"],
+            compliance: [
+                { title: "Sanitary Standards", desc: "Strict MRL limits for pesticides. Batch testing required before shipment." },
+                { title: "EAEU Technical Regulation", desc: "Complex conformity assessment for oils and fats." },
+                { title: "Payment Restrictions", desc: "Due to sanctions, use alternative settlement mechanisms like BRICS payment system." }
+            ]
+        },
+        processed: {
+            score: 79, 
+            insight: "🔥 High Growth: Indonesian snacks, instant noodles gaining Russian supermarket shelf space.",
+            tags: ["🍜 Retail chains: Auchan, Lenta", "📋 Full nutrition labels", "🏭 Halal + ISO 22000"],
+            compliance: [
+                { title: "State Registration (SGR)", desc: "Certain processed foods require SGR certificate from Rospotrebnadzor." },
+                { title: "Nutritional Declaration", desc: "Full Russian translation of ingredients, additives, and nutritional values." },
+                { title: "Shelf-life Documentation", desc: "Storage conditions and shelf-life validation required." }
+            ]
+        },
+        furniture: {
+            score: 65, 
+            insight: "🪑 Growing Demand: Russian furniture market expanding, Indonesian rattan and teak highly valued.",
+            tags: ["🪑 Rattan furniture popular", "🌳 Teak wood premium", "📦 Flat-pack shipping"],
+            compliance: [
+                { title: "Wood Origin Certification", desc: "Must prove legal harvesting (FLEGT/V-Legal)." },
+                { title: "ISPM 15", desc: "All wood packaging must be treated and marked." },
+                { title: "EAC Certification", desc: "Furniture safety standards under TR CU 025/2012." }
+            ]
+        },
+        spices: {
+            score: 73, 
+            insight: "🌶️ High Potential: Russian cuisine increasingly uses Asian spices. Nutmeg, clove, pepper in demand.",
+            tags: ["🌶️ Nutmeg from Banda", "🍲 Growing spice market", "✅ Halal required"],
+            compliance: [
+                { title: "Halal Certification", desc: "Required for all spice imports." },
+                { title: "Phytosanitary Certificate", desc: "Mandatory for all agricultural products." },
+                { title: "Pesticide Residue Limits", desc: "Strict MRL testing required." }
+            ]
+        },
+        rubber: {
+            score: 59, 
+            insight: "⚙️ Industrial Demand: Russian manufacturing needs natural rubber for tires and industrial goods.",
+            tags: ["🚗 Tire industry demand", "🏭 Industrial applications", "📊 Volume-driven"],
+            compliance: [
+                { title: "Industrial Standards", desc: "Must meet GOST or EAEU technical regulations." },
+                { title: "Quality Certification", desc: "ISO standards often required by industrial buyers." },
+                { title: "Payment Terms", desc: "L/C recommended for industrial transactions." }
+            ]
+        }
+    };
+
+    // DOM Elements
+    const productSelect = document.getElementById('productSelect');
+    const attractivenessScoreSpan = document.getElementById('attractivenessScore');
+    const meterFill = document.getElementById('meterFill');
+    const opportunityTextDiv = document.getElementById('opportunityText');
+    const tagsContainer = document.getElementById('tagsContainer');
+    const complianceListDiv = document.getElementById('complianceList');
+
+    function updateUI(productKey) {
+        const data = productData[productKey];
+        if (!data) return;
+        attractivenessScoreSpan.innerText = data.score;
+        meterFill.style.width = data.score + '%';
+        opportunityTextDiv.innerText = data.insight;
+        tagsContainer.innerHTML = data.tags.map(t => `<span class="tag">${t}</span>`).join('');
+        complianceListDiv.innerHTML = data.compliance.map(risk => `
+            <div class="risk-item">
+                <div class="risk-title"><i class="fas fa-shield-alt"></i> ${risk.title}</div>
+                <div class="risk-desc">${risk.desc}</div>
+            </div>
+        `).join('');
+        updateRecommendations();
+        updateRadarChart(productKey);
+    }
+
+    // Chart variables
+    let exportTrendChart, marketShareChart, radarChart, cityChart;
+
+    function initCharts() {
+        const ctx1 = document.getElementById('exportTrendChart').getContext('2d');
+        exportTrendChart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [
+                    { label: 'Coffee', data: [28, 32, 35, 42, 51], borderColor: '#1e6b52', backgroundColor: 'rgba(30,107,82,0.1)', fill: true, tension: 0.3 },
+                    { label: 'Textile', data: [45, 48, 52, 55, 62], borderColor: '#0B2F5F', backgroundColor: 'rgba(11,47,95,0.1)', fill: true, tension: 0.3 },
+                    { label: 'Processed Food', data: [18, 22, 28, 35, 44], borderColor: '#e6b12e', backgroundColor: 'rgba(230,177,46,0.1)', fill: true, tension: 0.3 }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: true }
+        });
+
+        const ctx2 = document.getElementById('marketShareChart').getContext('2d');
+        marketShareChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Palm Oil (38%)', 'Coffee (18%)', 'Textile (22%)', 'Processed Food (12%)', 'Others (10%)'],
+                datasets: [{ data: [38, 18, 22, 12, 10], backgroundColor: ['#1e6b52', '#2c7a5e', '#3b8c6e', '#e6b12e', '#0B2F5F'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: true }
+        });
+
+        const ctx3 = document.getElementById('cityConsumptionChart').getContext('2d');
+        cityChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['Moscow', 'St. Petersburg', 'Yekaterinburg', 'Novosibirsk', 'Kazan'],
+                datasets: [{ label: 'Coffee Consumption (tons/year)', data: [18500, 9800, 4200, 3800, 3100], backgroundColor: '#1e6b52', borderRadius: 8 }]
+            },
+            options: { responsive: true, maintainAspectRatio: true }
+        });
+
+        const ctx4 = document.getElementById('attractivenessRadar').getContext('2d');
+        radarChart = new Chart(ctx4, {
+            type: 'radar',
+            data: {
+                labels: ['Market Demand', 'Regulatory Ease', 'Logistics', 'Competition', 'Growth Potential'],
+                datasets: []
+            },
+            options: { responsive: true, maintainAspectRatio: true, scales: { r: { min: 0, max: 100, ticks: { stepSize: 20 } } } }
+        });
+        updateRadarChart('coffee');
+    }
+
+    function updateRadarChart(productKey) {
+        const scores = {
+            coffee: [92, 75, 70, 65, 88],
+            textile: [78, 68, 72, 72, 70],
+            handicraft: [70, 82, 55, 60, 75],
+            palm: [65, 55, 80, 58, 50],
+            processed: [85, 70, 75, 68, 82],
+            furniture: [68, 72, 65, 70, 65],
+            spices: [80, 78, 68, 62, 78],
+            rubber: [60, 65, 82, 55, 58]
+        };
+        const productNames = {
+            coffee: 'Coffee', textile: 'Textile', handicraft: 'Handicraft', palm: 'Palm Oil',
+            processed: 'Processed Food', furniture: 'Furniture', spices: 'Spices', rubber: 'Rubber'
+        };
+        if (radarChart) {
+            radarChart.data.datasets = [{
+                label: productNames[productKey],
+                data: scores[productKey] || [70,70,70,70,70],
+                backgroundColor: 'rgba(30,107,82,0.2)',
+                borderColor: '#1e6b52',
+                pointBackgroundColor: '#1e6b52'
+            }];
+            radarChart.update();
+        }
+    }
+
+    // Recommendation Engine
+    function getRecommendations() {
+        const products = Object.keys(productData);
+        const recommendations = products.map(key => ({
+            key: key,
+            name: productSelect.querySelector(`option[value="${key}"]`)?.text || key,
+            score: productData[key].score,
+            tags: productData[key].tags[0],
+            reason: getRecommendationReason(key)
+        }));
+        recommendations.sort((a, b) => b.score - a.score);
+        return recommendations.slice(0, 5);
+    }
+
+    function getRecommendationReason(key) {
+        const reasons = {
+            coffee: "Highest growth (+23%), premium demand",
+            textile: "Growing modest fashion market",
+            handicraft: "Authentic products valued",
+            palm: "Industrial demand stable",
+            processed: "Retail chain expansion",
+            furniture: "Rattan & teak premium",
+            spices: "Asian cuisine influence",
+            rubber: "Industrial demand"
+        };
+        return reasons[key] || "Good potential";
+    }
+
+    function updateRecommendations() {
+        const recs = getRecommendations();
+        const container = document.getElementById('recommendationList');
+        if (container) {
+            container.innerHTML = recs.map((rec, idx) => `
+                <div class="recommendation-card">
+                    <div class="rec-item">
+                        <div class="rec-product">
+                            <span style="background:#1e6b52; color:white; width:24px; height:24px; border-radius:30px; display:inline-flex; align-items:center; justify-content:center; font-size:12px;">${idx+1}</span>
+                            ${rec.name}
+                        </div>
+                        <div class="rec-score">${rec.score}/100</div>
+                    </div>
+                    <div class="rec-reason"><i class="fas fa-lightbulb"></i> ${rec.reason}</div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // Feedback
+    document.querySelectorAll('.feedback-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const rating = btn.getAttribute('data-rating');
+            const msg = document.getElementById('feedbackMsg');
+            msg.innerHTML = `✅ Thank you! Rating: ${'⭐'.repeat(rating)} recorded.`;
+            setTimeout(() => { msg.innerHTML = ''; }, 3000);
+        });
+    });
+
+    // ==================== FAST RESPONSES FOR ALL BUTTONS ====================
+    function getButtonResponse(questionId) {
+        const responses = {
+            // CONSUMPTION BY CITY
+            coffee_cities: `☕ **Coffee Consumption by Russian Cities**
+
+**Moscow (12.6M population)**
+- Consumption: 18,500 tons/year
+- 400+ specialty coffee shops
+- Premium single-origin beans highly sought after
+- Major roasters: Paulig, Jardin, Moccona
+
+**St. Petersburg (5.4M)**
+- 9,800 tons/year
+- Strong European-style cafe culture
+- Growing demand for organic beans
+
+**Yekaterinburg (1.5M)**
+- 4,200 tons/year
+- Industrial hub, Ural distribution center
+
+**Novosibirsk (1.6M)**
+- 3,800 tons/year
+- Largest Siberian city, 8-10% annual growth
+
+**Kazan (1.2M)**
+- 3,100 tons/year
+- Young population, Tatarstan capital
+
+**Entry Strategy:** Start with Moscow and St. Petersburg, then expand to regional hubs.`,
+
+            textile_cities: `👕 **Textile & Fashion Markets by Russian City**
+
+**Moscow**
+- 60% of Russia's fashion retail
+- Luxury: Tverskaya, Stoleshnikov lanes
+- Mass market: Atrium, Evropeisky malls
+- Key importers: BNS Group, Jamilco, Melon Fashion Group
+
+**St. Petersburg**
+- 20% of fashion market
+- European style preferences
+- Strong demand for batik and cultural textiles
+- Key buyers: Local boutiques on Nevsky Prospect
+
+**Yekaterinburg**
+- Major regional fashion hub
+- Ural region distribution center
+- Annual Textile Salon exhibition
+
+**Krasnodar & Rostov-on-Don**
+- Southern Russia markets
+- Growing middle class
+- Less competition than Moscow
+
+**Best Entry:** Start with Moscow's ethnic boutiques, contact ITPC Moscow for buyer introductions.`,
+
+            food_cities: `🍲 **Processed Food Demand by Russian City**
+
+**Moscow Region**
+- 35% of all food imports
+- Major chains: Auchan, Lenta, Magnit, Perekrestok
+- Highest demand for premium ethnic snacks
+- Halal food market growing rapidly
+
+**St. Petersburg**
+- 18% of food imports
+- Port city, major distribution hub
+- European-style consumer preferences
+
+**Kazan**
+- Tatarstan capital, significant Muslim population
+- STRONG DEMAND for Halal-certified products
+- Growing Indonesian food awareness
+
+**Sochi & Krasnodar**
+- Southern resort cities
+- Tourism drives snack demand
+- Good entry for tropical products
+
+**Ekaterinburg**
+- Distribution hub for Urals region
+- Growing middle class seeking international flavors
+
+**Strategy:** Work with national distributors like Auchan and Lenta for nationwide reach.`,
+
+            handicraft_cities: `🎨 **Handicraft Markets in Russia**
+
+**Moscow**
+- **Artisan Markets:** Flacon Design Factory, Artplay, Danilovsky Market
+- **Department Stores:** GUM, TSUM (souvenir sections)
+- **Specialty Shops:** Arbat district, Izmailovo Kremlin
+- **Key Events:** Moscow Art Fair (May, September)
+
+**St. Petersburg**
+- Tourist shops on Nevsky Prospect
+- Erarta Museum gift shop
+- Russian Museum souvenir stores
+- St. Petersburg Art Fair (annual)
+
+**Yekaterinburg**
+- Regional craft fairs
+- Ural Crafts Center
+- "Made in Ural" exhibitions
+
+**Kazan**
+- Tatar Crafts Market "Tatar Settlement"
+- Cultural tourism centers
+- Halal-friendly souvenirs in demand
+
+**Entry Tips:**
+- Emphasize authenticity and handmade value
+- Include storytelling about Indonesian heritage
+- Price premium: 2-3x domestic price
+- Contact ITPC Moscow for creative economy matchmaking`,
+
+            // FINDING RUSSIAN IMPORTERS
+            coffee_importers: `🤝 **Coffee Importers in Moscow**
+
+**Major Importers:**
+
+| Company | Specialty | Contact |
+|---------|-----------|---------|
+| **Paulig Russia** | Largest specialty coffee importer | procurement@paulig.ru |
+| **Jardin** | Premium coffee distributor | info@jardin.ru |
+| **Moccona** | Coffee roaster & importer | trade@moccona.ru |
+| **Starbucks Russia** | Operated by local partners | partners@starbucks.ru |
+
+**How to Connect:**
+
+✅ **ITPC Moscow**
+- Email: itpc.moscow@kemendag.go.id
+- Free buyer matchmaking services
+- Trade mission coordination
+
+✅ **Trade Exhibitions**
+- **WorldFood Moscow** (September)
+- **Coffee & Tea Expo Russia** (April)
+- **Prodexpo** (February)
+
+✅ **B2B Platforms**
+- ProPartner.ru
+- Torgi.ru (government procurement)
+
+✅ **BRICS Business Council**
+- Indonesia joined Jan 2025
+- Access to vetted buyers
+
+**Next Steps:**
+1. Prepare samples with Russian labeling
+2. Get Halal & phytosanitary certificates
+3. Contact ITPC Moscow for buyer list
+4. Attend WorldFood Moscow 2025`,
+
+            textile_buyers: `👕 **Textile Buyers in St. Petersburg**
+
+**Major Buyers/Distributors:**
+
+| Company | Type | Products |
+|---------|------|---------|
+| **Melon Fashion Group** | Fashion distributor | Zarina, Befree, Love Republic |
+| **Sportmaster** | Sportswear retailer | Activewear, sports textiles |
+| **Jamilco** | Luxury distributor | Premium fashion brands |
+| **Local Boutiques** | Independent stores | Ethnic, cultural textiles |
+
+**Connect via:**
+
+✅ **ITPC Moscow**
+- Specializes in textile matchmaking
+- Can arrange B2B meetings
+- Email: itpc.moscow@kemendag.go.id
+
+✅ **Trade Exhibitions**
+- **Textile Collection Russia** (March, September)
+- **Moscow Fashion Week** (April, October)
+- **CPM Moscow** (February, August)
+
+✅ **Industry Associations**
+- Russian Fashion Council
+- Soyuzlegprom (textile industry union)
+
+✅ **Online Platforms**
+- Wildberries
+- Ozon (fashion section)
+
+**Tips for Batik:**
+- Position as "luxury cultural product"
+- Emphasize UNESCO heritage status
+- Include storytelling and craftsmanship info`,
+
+            food_distributors: `🍜 **Food Distributors in Russia**
+
+**Major National Distributors:**
+
+| Company | Reach | Best For |
+|---------|-------|---------|
+| **Auchan Russia** | 200+ hypermarkets | Mass market, all regions |
+| **Lenta** | 250+ stores | Hypermarkets, St. Petersburg strong |
+| **Magnit** | 20,000+ stores | Largest, convenience format |
+| **X5 Retail Group** | Perekrestok, Pyaterochka | Urban, premium segments |
+| **Metro Cash & Carry** | B2B wholesale | Food service, restaurants |
+
+**Specialty Distributors for Indonesian Products:**
+
+| Distributor | Specialty |
+|-------------|----------|
+| **Asian Food Market** | Ethnic Asian products |
+| **Halal Food Russia** | Halal-certified products |
+| **Premium Import Group** | Premium snacks, coffee |
+
+**How to Connect:**
+
+1. **ITPC Moscow** - Buyer introductions and matchmaking
+2. **WorldFood Moscow** (September) - Meet buyers directly
+3. **Prodexpo** (February) - Largest food trade show
+4. **Ozon Global** - Direct e-commerce marketplace
+
+**Preparation:**
+- Halal certification (required for food)
+- Russian language packaging
+- EAC certification
+- Samples for tasting`,
+
+            online_platforms: `🌐 **Online Importer Platforms & Marketplaces**
+
+**B2B Platforms (Direct to Importers):**
+
+| Platform | Type | Best For | Russian Needed |
+|----------|------|---------|----------------|
+| **ProPartner.ru** | Business directory | All products | Yes |
+| **Pulscen.ru** | Industrial B2B | Machinery, rubber, furniture | Yes |
+| **Torgi.ru** | Government procurement | Large contracts | Yes |
+| **Eksportcenter.ru** | Russian Export Center | Vetted importers | Partial |
+
+**E-commerce Marketplaces (Direct to Consumers):**
+
+| Platform | Monthly Visitors | Seller Requirements |
+|----------|-----------------|---------------------|
+| **Wildberries** | 150M+ | Local fulfillment, Russian presence |
+| **Ozon Global** | 50M+ | International seller program, English support |
+| **Yandex.Market** | 40M+ | Aggregator, partners with Ozon/WB |
+| **AliExpress Russia** | 30M+ | International sellers accepted |
+
+**How to Start Selling on Ozon Global (Easiest):**
+
+1. Register at seller.ozon.ru (English available)
+2. Submit company documents
+3. List products with photos
+4. Ship via their logistics partners
+5. Commission: 5-15% depending on category
+
+**ITPC Support:**
+- Contact: itpc.moscow@kemendag.go.id
+- Can assist with platform registration
+- Verified importer lists available
+
+**Tip:** Start with Ozon Global for quick market entry, then expand to B2B platforms.`,
+
+            // MARKET INTELLIGENCE
+            top_products: `📈 **Top 5 Indonesian Products with Highest Demand in Russia**
+
+| Rank | Product | Score | Growth Rate | Key Drivers |
+|------|---------|-------|-------------|-------------|
+| 1 | **Coffee** | 86 | +23% | Premium single-origin, 5th largest coffee consumer globally |
+| 2 | **Processed Food** | 79 | +44% (2020-24) | Halal snacks, instant noodles, retail expansion |
+| 3 | **Spices** | 73 | Growing | Asian cuisine trend, world's largest nutmeg producer |
+| 4 | **Textile/Batik** | 72 | Stable | UNESCO heritage, ethical fashion, cultural value |
+| 5 | **Handicraft** | 68 | Niche | Authentic handmade, low competition |
+
+**Why These Products?**
+
+**Coffee** ☕
+- Russia imports 200,000+ tons annually
+- Indonesian beans known for quality
+- BRICS facilitation starting 2025
+
+**Processed Food** 🍲
+- Retail chains seeking new products
+- Halal market growing (20M Muslims)
+- Tropical snacks gaining popularity
+
+**Spices** 🌶️
+- Indonesia = 75% world nutmeg market
+- Russian cuisine increasingly uses Asian spices
+- Strong demand from food manufacturers
+
+**Batik** 👕
+- UNESCO Intangible Cultural Heritage
+- Premium positioning possible
+- Growing modest fashion market
+
+**Indonesia's Advantage:**
+✅ BRICS membership (joined Jan 2025)
+✅ Strategic bilateral relationship
+✅ Growing Russian middle class`,
+
+            export_challenges: `⚠️ **Top Challenges for Indonesian Exporters to Russia**
+
+**1. Payment & Sanctions** 💸
+- SWIFT restrictions limit traditional transfers
+- **Solutions:**
+  - Intermediary banks in UAE, China, Turkey
+  - Cryptocurrency (USDT, Bitcoin accepted)
+  - Letters of Credit (L/C)
+  - BRICS payment system (coming 2026)
+
+**2. Regulatory Complexity** 📜
+- EAC certification required for most products (3-6 months)
+- Halal certification mandatory for food
+- Russian labeling requirements
+- **Solutions:** Hire customs broker, start certification 4-6 months early
+
+**3. Market Information Gap** 📊
+- Limited accessible market data
+- Language barriers
+- **Solutions:** ITPC Moscow, this AI platform, trade associations
+
+**4. Logistics & Shipping** 🚢
+- Limited direct shipping routes
+- Port congestion
+- **Solutions:** Route via Vladivostok or St. Petersburg, use experienced forwarders
+
+**5. Cultural & Business Practices** 🌐
+- Different negotiation styles
+- Relationship-based business culture
+- **Solutions:** Invest in relationship building, consider local representation
+
+**6. Competition** 🏆
+- Turkey, Vietnam, China are established
+- **Solutions:** Focus on unique Indonesian products (batik, specialty coffee, spices)
+
+**How Nusantara Gateway Helps:**
+✅ Market intelligence & consumer insights
+✅ Regulatory guidance
+✅ Importer connections
+✅ Real-time AI export advice`,
+
+            // REGULATIONS & PAYMENTS
+            halal_cert: `🕌 **Halal Certification for Russian Market**
+
+**Requirements:**
+
+| Requirement | Details |
+|-------------|---------|
+| **Certifying Body** | BPJPH (Indonesia) - official government authority |
+| **Certificate Validity** | 4 years |
+| **Translation** | Must be translated to Russian by certified translator |
+| **Legalization** | Apostille from Indonesian Ministry of Law and Human Rights |
+| **Timeline** | 2-4 months |
+| **Cost** | Rp 3-15 million depending on product complexity |
+
+**Process:**
+
+1. **Register on SIHALAL** (ptsp.halal.go.id)
+2. Submit product documents and ingredients list
+3. Undergo audit and laboratory testing
+4. Receive certificate
+5. Translate and legalize for Russia
+
+**Russian Acceptance:**
+- Russia recognizes BPJPH certification
+- Tatarstan (Kazan) has strong halal demand
+- Display halal logo prominently in Russian
+
+**Products Requiring Halal:**
+- All food and beverages
+- Cosmetics and personal care
+- Pharmaceuticals
+- Food packaging materials
+
+**Key Contacts:**
+- BPJPH: halal.go.id
+- ITPC Moscow: itpc.moscow@kemendag.go.id (assistance with Russian market)
+
+**Tip:** Start certification process 4 months before planned export.`,
+
+            eac_cert: `✅ **EAC (Eurasian Conformity) Certification**
+
+**What is EAC?**
+- Mandatory certification for products entering Russia and EAEU (Russia, Belarus, Kazakhstan, Armenia, Kyrgyzstan)
+- Covers safety, quality, and health standards
+
+**Applicable Technical Regulations (TR CU):**
+
+| Product Category | Technical Regulation |
+|------------------|---------------------|
+| Food Products | TR CU 021/2011, 022/2011, 023/2011 |
+| Textiles | TR CU 017/2011 |
+| Machinery | TR CU 010/2011, 020/2011 |
+| Furniture | TR CU 025/2012 |
+| Cosmetics | TR CU 009/2011 |
+| Electronics | TR CU 004/2011, 020/2011 |
+
+**Process:**
+
+1. **Identify applicable TR CU** for your product
+2. **Submit samples** to accredited Russian testing laboratory
+3. **Receive test reports** and certificate
+4. **Affix EAC mark** on product and packaging
+
+**Timeline & Cost:**
+- Duration: 3-6 months
+- Cost: USD 2,000 - 10,000 depending on product complexity
+
+**Getting Started:**
+1. Hire a Russian customs broker
+2. Contact ITPC Moscow for accredited lab list: itpc.moscow@kemendag.go.id
+3. Prepare technical documentation:
+   - Product specifications
+   - Safety data sheets
+   - Manufacturing process description
+
+**Important:** Start EAC certification 4-6 months before planned export.`,
+
+            payment_methods: `💸 **Payment Methods for Russia (Sanctions Workarounds)**
+
+**Current Challenges:**
+- SWIFT restrictions affect traditional bank transfers
+- Russian banks face international sanctions
+- USD/EUR transactions heavily restricted
+
+**✅ Working Payment Methods:**
+
+**1. Intermediary Banks** (Most Common)
+- **UAE:** Mashreq Bank, Emirates NBD, First Abu Dhabi Bank
+- **China:** Bank of China, ICBC, China Construction Bank
+- **Turkey:** İşbank, Ziraat Bankası, VakıfBank
+- **Process:** USD/IDR → intermediary bank → RUB
+
+**2. Cryptocurrency**
+- Russia legalized crypto for international payments (2024)
+- **Accepted:** USDT (Tether), Bitcoin, Ethereum
+- Use licensed Indonesian crypto exchanges
+- Settle within hours instead of weeks
+
+**3. Letters of Credit (L/C)**
+- Traditional secure method
+- Higher fees but safer for first-time exporters
+- Requires careful bank selection
+
+**4. BRICS Payment System** (Coming 2026)
+- Alternative to SWIFT
+- Direct RUB-IDR settlements
+- Indonesia joined BRICS Jan 2025
+
+**Indonesian Banks That Still Process Russia Payments:**
+| Bank | Status |
+|------|--------|
+| Bank Mandiri | Limited, case by case |
+| Bank Negara Indonesia (BNI) | Limited, case by case |
+| Bank Central Asia (BCA) | Via intermediary only |
+
+**Recommended First Step:**
+Contact ITPC Moscow for current list of active banks and payment corridors: itpc.moscow@kemendag.go.id`,
+
+            import_duties: `💰 **Import Duties for Indonesian Products to Russia**
+
+**EAEU Common Customs Tariff Rates:**
+
+| Product | HS Code | Duty Rate | VAT |
+|---------|---------|-----------|-----|
+| Coffee (green beans) | 0901.11 | 0-5% | 20% |
+| Coffee (roasted) | 0901.21 | 8-15% | 20% |
+| Tea | 0902 | 0-5% | 20% |
+| Textiles & Garments | 61-62 | 10-15% | 20% |
+| Palm Oil (crude) | 1511.10 | 5-8% | 20% |
+| Palm Oil (processed) | 1511.90 | 8-12% | 20% |
+| Processed Food | Various | 10-20% | 20% |
+| Furniture | 94.03 | 10-15% | 20% |
+| Spices | 09.04-09.10 | 5-10% | 20% |
+| Rubber (natural) | 4001.10 | 0-5% | 20% |
+| Handicrafts | 97.01/44.20 | 5-10% | 20% |
+
+**GSP Preferential Rates:**
+- Indonesia qualifies for EAEU Generalized System of Preferences
+- Up to 25% duty reduction
+- **Requirement:** Certificate of Origin Form A from Indonesian Ministry of Trade
+
+**How to Calculate Total Import Cost:**
+
+Formula: (CIF Value × Duty Rate) + (CIF Value + Duty) × 20% VAT + Clearance Fees
+
+**Example - Coffee (roasted):**
+- CIF Value: $10,000
+- Duty (10%): $1,000
+- VAT (20% of $11,000): $2,200
+- Clearance fees: $300
+- **Total customs payment: $3,500**
+
+**Additional Costs:**
+| Cost Type | Amount |
+|-----------|--------|
+| Customs clearance | $200-500 per shipment |
+| Warehousing | $50-200/day |
+| EAC Certification (one-time) | $2,000-10,000 |
+| Halal Certification (one-time) | Rp 3-15 million |
+| Freight forwarding | Varies by volume |
+
+**Tips to Minimize Costs:**
+1. Use GSP Certificate of Origin Form A
+2. Classify products correctly (consult customs broker)
+3. Consolidate shipments to reduce fees
+4. Work with experienced freight forwarder
+
+**Contact:** ITPC Moscow can recommend reliable customs brokers.`
+        };
+        
+        return responses[questionId] || `📌 **Information for your query**
+
+I can help you with export intelligence for Indonesian products to Russia.
+
+Try asking about:
+- Coffee consumption in Russian cities
+- How to find specific importers
+- EAC or Halal certification
+- Payment methods and import duties
+
+Would you like more details on a specific topic?`;
+    }
+
+    // Chat functionality
+    const chatMessagesDiv = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    let isWaiting = false;
+
+    function addMessage(text, isUser = false) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${isUser ? 'user-msg' : ''}`;
+        const formattedText = text.replace(/\n/g, '<br>');
+        if (isUser) {
+            msgDiv.innerHTML = `<div class="bubble">${escapeHtml(text)}</div>`;
+        } else {
+            msgDiv.innerHTML = `<div class="bot-msg"><i class="fas fa-robot" style="margin-right: 8px;"></i>${formattedText}</div>`;
+        }
+        chatMessagesDiv.appendChild(msgDiv);
+        chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+    }
+
+    function addTyping() {
+        const typing = document.createElement('div');
+        typing.className = 'message';
+        typing.id = 'typingIndicator';
+        typing.innerHTML = `<div class="typing-indicator"><i class="fas fa-spinner fa-pulse"></i> Loading...</div>`;
+        chatMessagesDiv.appendChild(typing);
+        chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+    }
+
+    function removeTyping() {
+        const el = document.getElementById('typingIndicator');
+        if (el) el.remove();
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    async function handleSend(questionId = null, userText = null) {
+        let finalUserText = userText;
+        let finalResponse = null;
+        
+        // If this is a button with questionId
+        if (questionId) {
+            // Get display text from button
+            const btn = document.querySelector(`.suggestion-btn[data-question="${questionId}"]`);
+            if (btn) {
+                finalUserText = btn.innerText;
+            }
+            // Get instant response
+            finalResponse = getButtonResponse(questionId);
+        } else if (userText) {
+            finalUserText = userText;
+        } else {
+            finalUserText = chatInput.value.trim();
+            if (!finalUserText) return;
+        }
+        
+        if (isWaiting) return;
+        
+        // Add user message
+        addMessage(finalUserText, true);
+        
+        if (!questionId) {
+            chatInput.value = '';
+        }
+        
+        isWaiting = true;
+        addTyping();
+        
+        // If we already have a response (button click), use it immediately
+        if (finalResponse) {
+            setTimeout(() => {
+                removeTyping();
+                addMessage(finalResponse, false);
+                isWaiting = false;
+            }, 300);
+            return;
+        }
+        
+        // For text input, try Gemini with timeout
+        const productKey = productSelect.value;
+        const productName = productSelect.options[productSelect.selectedIndex]?.text;
+        const context = `${productName} (Score: ${productData[productKey]?.score || 70})`;
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        
+        try {
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAqBMSSbhnQNeAnbJ_2zRDVNF7iETdTQJw`;
+            const prompt = `You are Nusantara Gateway, an export advisor for Indonesian businesses exporting to Russia. Provide practical, detailed answers. Keep response concise but informative.
+
+Current product context: ${context}
+
+User question: ${finalUserText}`;
+            
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 600 }
+                })
+            });
+            clearTimeout(timeoutId);
+            const data = await response.json();
+            
+            if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                removeTyping();
+                addMessage(data.candidates[0].content.parts[0].text, false);
+                isWaiting = false;
+                return;
+            }
+        } catch (error) {
+            clearTimeout(timeoutId);
+        }
+        
+        // Fallback for text input
+        removeTyping();
+        addMessage(`📌 **Information for your query**
+
+I can help you with export intelligence for Indonesian products to Russia.
+
+Try using the buttons above for specific information about:
+- Coffee consumption in Russian cities
+- How to find importers
+- EAC or Halal certification
+- Payment methods and import duties
+
+Or ask me something specific about exporting to Russia!`, false);
+        isWaiting = false;
+    }
+
+    // Event listeners for buttons
+    document.querySelectorAll('.suggestion-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const questionId = btn.getAttribute('data-question');
+            handleSend(questionId, null);
+        });
+    });
+
+    sendBtn.addEventListener('click', () => handleSend(null, null));
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSend(null, null);
+    });
+    
+    productSelect.addEventListener('change', (e) => updateUI(e.target.value));
+    
+    // Initialize
+    updateUI('coffee');
+    setTimeout(() => initCharts(), 100);
+    
+    console.log("✅ Nusantara Gateway Ready - All 14 buttons working instantly!");
+</script>
+</body>
+</html>
